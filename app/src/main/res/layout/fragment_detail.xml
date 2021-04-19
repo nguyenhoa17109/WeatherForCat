@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment_home.FragmentDetail"
+    android:layout_margin="16px">
+
+    <ScrollView
+        android:layout_marginBottom="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_margin="5dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp">
+            <LinearLayout
+                android:layout_margin="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img"
+                    android:src="@drawable/ic_sun"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="16dp">
+
+                    <TextView
+                        android:id="@+id/tvTemp"
+                        android:text="30°C"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center"
+
+                        android:textSize="32dp"
+                        android:textColor="#f78a55"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tvDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:text="Thu April 8, 2021"
+                        android:textColor="#b56291" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <TableLayout
+                android:backgroundTint="@color/white"
+                android:stretchColumns="*"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow android:padding="5dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Wind"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif"
+                        android:textSize="20dp"/>
+                    <TextView
+                        android:id="@+id/tvWin"
+                        android:text="13 km/h"
+                        android:textSize="18dp"
+                        android:textColor="#b56291"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Humidity"
+                        android:fontFamily="sans-serif"
+                        android:textSize="18dp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tvHumidity"
+                        android:text="80%"
+                        android:textSize="20dp"
+                        android:textColor="#b56291"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </TableRow>
+                <TableRow android:padding="5dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Visibility"
+                        android:fontFamily="sans-serif"
+                        android:textSize="18dp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tvVisibility"
+                        android:text="10 km"
+                        android:textSize="20dp"
+                        android:textColor="#b56291"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="UV"
+                        android:fontFamily="sans-serif"
+                        android:textSize="18dp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tvPressure"
+                        android:text="1014 mb"
+                        android:textSize="20dp"
+                        android:textColor="#b56291"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </TableRow>
+            </TableLayout>
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#48567B" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reView"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#48567B" />
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:background="@drawable/back_noti"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                    <com.github.mikephil.charting.charts.CombinedChart
+                        android:id="@+id/chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:layout_margin="10dp"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reView2"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".fragment_home.FragmentHome">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="50dp">
+
+            <EditText
+                android:id="@+id/etSearch"
+                android:hint="   Enter city"
+                android:textColorHint="#CFCFCF"
+                android:textColor="@color/white"
+                android:inputType="text"
+                android:padding="10dp"
+                android:fontFamily="sans-serif"
+                android:background="@drawable/search"
+                android:drawableLeft="@drawable/ic_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/img"
+                    android:src="@drawable/ic_sun"
+                    android:layout_height="70dp"
+                    android:layout_width="70dp"
+                    android:layout_marginRight="20dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvTemp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:text="30°C"
+                        android:textSize="32dp"
+                        android:textColor="#f78a55"/>
+
+                    <TextView
+                        android:id="@+id/tvAddr"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:text="Ha Noi, Viet Nam"
+                        android:textSize="18dp"
+                        android:textColor="#b56291"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TableLayout
+                android:stretchColumns="*"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/bt1"
+                        android:text="Today"
+                        android:textAllCaps="false"
+                        android:background="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/bt2"
+                        android:text="Tomorrow"
+                        android:textAllCaps="false"
+                        android:background="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/bt3"
+                        android:text="After"
+                        android:textAllCaps="false"
+                        android:background="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </TableRow>
+                <TableRow>
+                    <LinearLayout
+                        android:layout_margin="20dp"
+                        android:background="@drawable/sang"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp">
+                        <TextView
+                            android:id="@+id/tvSang"
+                            android:text="Sang"
+                            android:textColor="@color/white"
+                            android:textSize="18dp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif"
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <ImageView
+                            android:id="@+id/imgSang"
+                            android:layout_marginTop="30dp"
+                            android:src="@drawable/ic_sun40"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/tvTempSang"
+                            android:text="30°C"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif"
+                            android:textSize="24dp"
+                            android:gravity="center"
+                            android:layout_marginTop="20dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/chieu"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp">
+                        <TextView
+                            android:id="@+id/tvChieu"
+                            android:text="Chieu"
+                            android:textColor="@color/white"
+                            android:textSize="18dp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif"
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <ImageView
+                            android:id="@+id/imgChieu"
+                            android:layout_marginTop="30dp"
+                            android:src="@drawable/ic_sun40"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/tvTempChieu"
+                            android:text="30°C"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif"
+                            android:textSize="24dp"
+                            android:gravity="center"
+                            android:layout_marginTop="20dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_margin="20dp"
+                        android:background="@drawable/day"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp">
+                        <TextView
+                            android:id="@+id/tvDay"
+                            android:text="Toi"
+                            android:textColor="@color/white"
+                            android:textSize="18dp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif"
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <ImageView
+                            android:id="@+id/imgToi"
+                            android:layout_marginTop="30dp"
+                            android:src="@drawable/ic_sun40"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/tvTempToi"
+                            android:text="30°C"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif"
+                            android:textSize="24dp"
+                            android:gravity="center"
+                            android:layout_marginTop="20dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                </TableRow>
+
+            </TableLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:background="@drawable/back_noti_in"
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/meo_nor"/>
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Meo's notification"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif"
+                            android:textSize="18dp"
+                            android:textColor="#2E4859"/>
+                        <TextView
+                            android:id="@+id/tvNoti"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Nay trời nắng đẹp lắm đó, sức gió 40km/h
+                        Mau mang bổn meo meo đi tắm nắng nào."
+                            android:textSize="14dp"
+                            android:textColor="#48567B"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>
