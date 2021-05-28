@@ -8,8 +8,8 @@
         android:icon="@drawable/ic_heart"/>
     <item android:id="@+id/mNoti"
         android:title="Notification"
-        android:icon="@drawable/ic_noti"/>
+        android:icon="@drawable/ic_notification"/>
     <item android:id="@+id/mUser"
         android:title="User"
-        android:icon="@drawable/ic_user"/>
+        android:icon="@drawable/ic_profile"/>
 </menu>

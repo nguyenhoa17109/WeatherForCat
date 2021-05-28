@@ -1,10 +1,14 @@
-package com.nguyenhoa.weatherforcast.fragment;
+package com.nguyenhoa.weatherforcast.adpter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.nguyenhoa.weatherforcast.fragment.FragmentCare;
+import com.nguyenhoa.weatherforcast.fragment.FragmentMainHome;
+import com.nguyenhoa.weatherforcast.fragment.FragmentNotification;
+import com.nguyenhoa.weatherforcast.fragment.FragmentUser;
 import com.nguyenhoa.weatherforcast.fragment_home.FragmentHome;
 
 public class FragmentBottomAdapter extends FragmentStatePagerAdapter {

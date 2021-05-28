@@ -1,14 +1,29 @@
 package com.nguyenhoa.weatherforcast.fragment;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.nguyenhoa.weatherforcast.R;
+import com.nguyenhoa.weatherforcast.adpter.MessageAdapter;
+import com.nguyenhoa.weatherforcast.model.Notification;
+import com.nguyenhoa.weatherforcast.model.ResponseMessage;
+import com.nguyenhoa.weatherforcast.sqlite.SQLiteNotification;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +31,13 @@ import com.nguyenhoa.weatherforcast.R;
  * create an instance of this fragment.
  */
 public class FragmentCare extends Fragment {
+    View v;
+    EditText userInput;
+    AnimationDrawable rocketAnimation;
+    ImageView img;
+    RecyclerView recyclerView;
+    MessageAdapter messageAdapter;
+    List<ResponseMessage> responseMessageList;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +83,98 @@ public class FragmentCare extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_care, container, false);
+        v = inflater.inflate(R.layout.fragment_care, container, false);
+        init(v);
+        SQLiteNotification sqLiteNotification = new SQLiteNotification(v.getContext());
+        List<Notification> list = sqLiteNotification.getAll();
+//        sqLiteNotification.delete(5);
+//        sqLiteNotification.delete(6);
+        Notification result = new Notification();
+        if(list.size()>1)
+            result = list.get(list.size()-1);
+//        Notification finalResult = result;
+        Notification finalResult = result;
+        userInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEND) {
+                    String s = userInput.getText().toString();
+                    ResponseMessage responseMessage = new ResponseMessage(s, true);
+                    responseMessageList.add(responseMessage);
+
+                    ResponseMessage responseMessage2 = setMessageBot(s, finalResult);
+                    responseMessageList.add(responseMessage2);
+                    messageAdapter.notifyDataSetChanged();
+                    userInput.setText("");
+                    if (!isLastVisible())
+                        recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
+                }
+                return false;
+            }
+        });
+        return v;
+    }
+
+    private ResponseMessage setMessageBot(String s, Notification result) {
+        String s1="";
+
+        switch (s){
+            case "1":{
+                s1 = "Choose one option:\na. Get main.\nb. Get win.\nc. Get clouds.\nd. Exit.";
+                break;
+            }
+            case "2":{
+                s1 = result.getGeneral();
+                break;
+            }
+            case "a":{
+                s1 = result.getMain();
+                break;
+            }
+            case "b":{
+                s1 = result.getWin();
+                break;
+            }
+            case "c":{
+                s1 = result.getClouds();
+                break;
+            }
+            default:{
+                s1 = "What do you want to know:" +
+                        "\n1.Get weather detail.\n2.Get weather general.";
+            }
+        }
+
+        return new ResponseMessage(s1, false);
+    }
+
+    private void init(View v) {
+        img = v.findViewById(R.id.img);
+        userInput = v.findViewById(R.id.userInput);
+        recyclerView = v.findViewById(R.id.conversation);
+        responseMessageList = new ArrayList<>();
+        messageAdapter = new MessageAdapter(responseMessageList, getContext());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()
+                , LinearLayoutManager.VERTICAL,false));
+        recyclerView.setAdapter(messageAdapter);
+
+        img.setBackgroundResource(R.drawable.cat);
+        rocketAnimation = (AnimationDrawable) img.getBackground();
+        rocketAnimation.start();
+        createStart();
+    }
+
+    private void createStart() {
+        ResponseMessage r = new ResponseMessage("What do you want to know:" +
+                "\n1.Get weather detail.\n2.Get weather general."
+                , false);
+        responseMessageList.add(r);
+        messageAdapter.notifyDataSetChanged();
+    }
+    boolean isLastVisible() {
+        LinearLayoutManager layoutManager = ((LinearLayoutManager) recyclerView.getLayoutManager());
+        int pos = layoutManager.findLastCompletelyVisibleItemPosition();
+        int numItems = recyclerView.getAdapter().getItemCount();
+        return (pos >= numItems);
     }
 }

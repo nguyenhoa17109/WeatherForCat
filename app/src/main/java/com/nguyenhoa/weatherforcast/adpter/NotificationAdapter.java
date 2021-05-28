@@ -1,4 +1,4 @@
-package com.nguyenhoa.weatherforcast.fragment;
+package com.nguyenhoa.weatherforcast.adpter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -40,8 +40,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(@NonNull NotificationViewHolder holder, int position) {
         Notification n = list.get(position);
         if(n == null) return;
-        holder.tvTime.setText(n.getDay());
-        holder.tvTitle.setText(n.getTitle());
+        holder.tvTime.setText(n.getTitle());
+        holder.tvTitle.setText(n.getDay());
         holder.tvContent.setText(n.getContent());
     }
 

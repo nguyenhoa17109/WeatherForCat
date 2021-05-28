@@ -1,4 +1,4 @@
-package com.nguyenhoa.weatherforcast.fragment;
+package com.nguyenhoa.weatherforcast.adpter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -62,8 +62,8 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.DayViewHolder> {
 
         public DayViewHolder(@NonNull View view) {
             super(view);
-            tv1 = view.findViewById(R.id.tvDay);
-            tv2 = view.findViewById(R.id.tvWeather);
+            tv1 = view.findViewById(R.id.txt_day);
+            tv2 = view.findViewById(R.id.txt_temperature);
             img = view.findViewById(R.id.img);
         }
     }

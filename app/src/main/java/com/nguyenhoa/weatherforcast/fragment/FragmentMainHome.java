@@ -1,18 +1,41 @@
 package com.nguyenhoa.weatherforcast.fragment;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TableLayout;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.nguyenhoa.weatherforcast.R;
+import com.nguyenhoa.weatherforcast.adpter.ViewPagerAdapter;
+import com.nguyenhoa.weatherforcast.common.Common;
+import com.nguyenhoa.weatherforcast.fragment_home.FragmentDetail;
+import com.nguyenhoa.weatherforcast.fragment_home.FragmentHome;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,10 +43,17 @@ import com.nguyenhoa.weatherforcast.R;
  * create an instance of this fragment.
  */
 public class FragmentMainHome extends Fragment {
+    private Toolbar toolbar;
     private TabLayout tab;
     private View v;
     private ViewPager pager;
     private ViewPagerAdapter adapter;
+
+    private CoordinatorLayout coordinatorLayout;
+//    private CoordinatorLayout linearLayout;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private LocationRequest locationRequest;
+    private LocationCallback locationCallback;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -63,6 +93,7 @@ public class FragmentMainHome extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -70,16 +101,93 @@ public class FragmentMainHome extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_main_home, container, false);
-        tab = v.findViewById(R.id.tab);
-        pager = v.findViewById(R.id.viewPagerTab);
+        coordinatorLayout = v.findViewById(R.id.root_view);
+//        toolbar = v.findViewById(R.id.toolbar);
+//        getActivity().setSupportActionBar(toolbar);
+//
+//        getActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        tab = v.findViewById(R.id.tab);
+//        getS
+//        pager = v.findViewById(R.id.viewPagerTab);
+//
+//        adapter = new ViewPagerAdapter(getChildFragmentManager(), ViewPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+//        adapter.addFragment(FragmentHome.getInstance(), "Home");
+//        adapter.addFragment(FragmentDetail.getInstance(), "Detail");;
 
-        adapter = new ViewPagerAdapter(getChildFragmentManager(),
-                ViewPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        pager.setAdapter(adapter);
-//        pager.setPageTransformer(true, new Horizon());
+//        pager.setAdapter(adapter);
+////        pager.setPageTransformer(true, new Horizon());
 
-        tab.setupWithViewPager(pager);
-        tab.setSelectedTabIndicatorColor(Color.parseColor("#E36E79"));
+
+//        Request permission
+        Dexter.withActivity(getActivity())
+                .withPermissions(Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if (report.areAllPermissionsGranted()) {
+                            buildLocationRequest();
+                            buildLocationCallBack();
+
+                            if (ActivityCompat.checkSelfPermission(getContext(),
+                                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                                    && ActivityCompat.checkSelfPermission(getContext(),
+                                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                                return;
+                            }
+                            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
+                            fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        Snackbar.make(coordinatorLayout, "Pessmision Denied", Snackbar.LENGTH_LONG).show();
+                    }
+                }).check();
+//        pager.setAdapter(adapter);
+//        tab.setupWithViewPager(pager);
+//        tab.setSelectedTabIndicatorColor(Color.parseColor("#E36E79"));
         return v;
     }
+
+    private void buildLocationCallBack() {
+        locationCallback = new LocationCallback(){
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+
+                Common.curren_location = locationResult.getLastLocation();
+                pager = v.findViewById(R.id.viewPagerTab);
+                setupViewPager (pager);
+                tab = v.findViewById(R.id.tab);
+                tab.setupWithViewPager(pager);
+                tab.setSelectedTabIndicatorColor(Color.parseColor("#E36E79"));
+
+                //log
+                Log.d("Location", locationResult.getLastLocation().getLatitude()
+                        + "/"+locationResult.getLastLocation().getLongitude());
+
+            }
+
+            private void setupViewPager(ViewPager viewPager) {
+                adapter = new ViewPagerAdapter(getChildFragmentManager()
+                        , ViewPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+                adapter.addFragment(FragmentHome.getInstance(), "Home");
+                adapter.addFragment(FragmentDetail.getInstance(), "Detail");
+//                adapter.addFragment(CityFragment.getInstance(), "Cities");
+                viewPager.setAdapter(adapter);
+            }
+        };
+    }
+
+    private void buildLocationRequest() {
+        locationRequest = new LocationRequest();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(5000);
+        locationRequest.setFastestInterval(3000);
+        locationRequest.setSmallestDisplacement(10.0f);
+    }
+
 }

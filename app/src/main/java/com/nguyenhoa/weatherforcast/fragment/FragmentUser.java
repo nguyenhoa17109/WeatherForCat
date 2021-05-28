@@ -1,14 +1,21 @@
 package com.nguyenhoa.weatherforcast.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.nguyenhoa.weatherforcast.R;
+import com.nguyenhoa.weatherforcast.SettingActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,7 +23,9 @@ import com.nguyenhoa.weatherforcast.R;
  * create an instance of this fragment.
  */
 public class FragmentUser extends Fragment {
-
+    private Button bt_edit, bt_shop, bt_change, bt_setting;
+    private TextView tv_name, tv_description;
+    private View v;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -51,6 +60,7 @@ public class FragmentUser extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        savedInstanceState.clear();
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -61,6 +71,50 @@ public class FragmentUser extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user, container, false);
+        v = inflater.inflate(R.layout.fragment_user, container, false);
+
+        init(v);
+        bt_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
+                alert.setTitle("Change profile");
+                View mView = getLayoutInflater().inflate(R.layout.dialog_edit,null);
+                EditText et_name = mView.findViewById(R.id.et_name);
+                EditText et_description = mView.findViewById(R.id.et_description);
+                Button bt_save = mView.findViewById(R.id.bt_save);
+                alert.setView(mView);
+                final AlertDialog alertDialog = alert.create();
+                alertDialog.setCanceledOnTouchOutside(false);
+                bt_save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        tv_name.setText(et_name.getText().toString());
+                        tv_description.setText(et_description.getText().toString());
+                        alertDialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+            }
+        });
+        bt_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SettingActivity.class);
+//                savedInstanceState.clear();
+                startActivity(intent);
+            }
+        });
+        return v;
+    }
+
+    private void init(View v) {
+        bt_edit = v.findViewById(R.id.bt_edit);
+        bt_change = v.findViewById(R.id.bt_change);
+        bt_setting = v.findViewById(R.id.bt_setting);
+        bt_shop = v.findViewById(R.id.bt_shop);
+
+        tv_name = v.findViewById(R.id.tv_name);
+        tv_description = v.findViewById(R.id.tv_description);
     }
 }

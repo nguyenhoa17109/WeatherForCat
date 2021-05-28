@@ -11,11 +11,12 @@
     <LinearLayout
         android:background="@drawable/day"
         android:orientation="vertical"
+        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
         <TextView
-            android:id="@+id/tvDay"
+            android:id="@+id/txt_day"
             android:text="Thu"
             android:textColor="@color/white"
             android:textSize="18dp"
@@ -29,11 +30,11 @@
             android:id="@+id/img"
             android:layout_marginTop="30dp"
             android:src="@drawable/ic_sun40"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
 
         <TextView
-            android:id="@+id/tvWeather"
+            android:id="@+id/txt_temperature"
             android:text="30°C"
             android:textColor="@color/white"
             android:textStyle="bold"
