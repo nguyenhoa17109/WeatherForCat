@@ -152,12 +152,12 @@ public class Current {
     }
 
     public String getWin(){
-        return "Win:\n" +
+        return "Win:" +
                 "\nWind_speed=" + wind_speed +
                 "km/h\nWind_deg=" + wind_deg;
     }
     public String getMain(){
-        return "Main:\n" +
+        return "Main:" +
                 "\nTemperature: " + temp +
                 "°C\nFeels_like=" + feels_like +
                 "°C\nPressure=" + pressure +

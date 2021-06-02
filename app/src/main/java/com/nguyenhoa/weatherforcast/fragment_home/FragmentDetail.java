@@ -291,7 +291,7 @@ public class FragmentDetail extends Fragment implements DayDetailAdapter.ItemCli
                         txt_wind.setText(new StringBuilder(String.valueOf(weatherResult.getWind().getSpeed())).append("km/h").toString());
 //                        txt_sunrise.setText(Common.converUnixToHour(weatherResult.getSys().getSunrise()));
 //                        txt_sunset.setText(Common.converUnixToHour(weatherResult.getSys().getSunset()));
-
+//                        setNotification(weatherResult);
                         //Display panel
                         weather_panel.setVisibility(View.VISIBLE);
                         loading.setVisibility(View.GONE);
@@ -303,6 +303,22 @@ public class FragmentDetail extends Fragment implements DayDetailAdapter.ItemCli
 //                        Toast.makeText(getActivity(), ""+throwable.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }));
+    }
+
+    private void setNotification(WeatherResult result) {
+        SQLiteNotification sqLiteNotification = new SQLiteNotification(v.getContext());
+//                        List<Notification> list = sqLiteNotification.getAll();
+
+            Notification notification = new Notification(
+                    Common.converUnixToDate(result.getDt()),
+                    result.getName(),
+                    result.toString(),
+                    result.toString(),
+                    result.getWind().toString(),
+                    result.getMain().toString(),
+                    String.valueOf(result.getClouds()));
+            sqLiteNotification.addNotification(notification);
+
     }
 
     private void getInformation() {
@@ -317,30 +333,7 @@ public class FragmentDetail extends Fragment implements DayDetailAdapter.ItemCli
                 .subscribe(new Consumer<HourWeatherForecastResult>() {
                     @Override
                     public void accept(HourWeatherForecastResult hourWeatherForecast) throws Exception {
-                        SQLiteNotification sqLiteNotification = new SQLiteNotification(v.getContext());
-//                        List<Notification> list = sqLiteNotification.getAll();
-                        if(hourWeatherForecast.getAlerts() == null){
-                            Notification notification = new Notification(
-                                    Common.converUnixToDate1(hourWeatherForecast.getCurrent().getDt()),
-                                    hourWeatherForecast.getTimezone(),
-                                    hourWeatherForecast.getCurrent().toString(),
-                                    hourWeatherForecast.getCurrent().toString(),
-                                    hourWeatherForecast.getCurrent().getWin(),
-                                    hourWeatherForecast.getCurrent().getMain(),
-                                    String.valueOf(hourWeatherForecast.getCurrent().clouds));
-                            sqLiteNotification.addNotification(notification);
-                        }else{
-                            Alert alert = hourWeatherForecast.getAlerts().get(0);
-                            Notification notification = new Notification(
-                                    Common.converUnixToDate1(Integer.parseInt(String.valueOf(alert.getStart()))),
-                                    alert.getSender_name()+" - "+alert.getEvent(),
-                                    alert.getDescription(),
-                                    hourWeatherForecast.getCurrent().toString(),
-                                    hourWeatherForecast.getCurrent().getWin(),
-                                    hourWeatherForecast.getCurrent().getMain(),
-                                    String.valueOf(hourWeatherForecast.getCurrent().clouds));
-                            sqLiteNotification.addNotification(notification);
-                        }
+                        setNoti(hourWeatherForecast);
 
                         display(hourWeatherForecast);
                     }
@@ -351,6 +344,33 @@ public class FragmentDetail extends Fragment implements DayDetailAdapter.ItemCli
                     }
                 })
         );
+    }
+
+    private void setNoti(HourWeatherForecastResult hourWeatherForecast) {
+        SQLiteNotification sqLiteNotification = new SQLiteNotification(v.getContext());
+//                        List<Notification> list = sqLiteNotification.getAll();
+        if(hourWeatherForecast.getAlerts() == null){
+            Notification notification = new Notification(
+                    Common.converUnixToDate1(hourWeatherForecast.getCurrent().getDt()),
+                    hourWeatherForecast.getTimezone(),
+                    hourWeatherForecast.getCurrent().toString(),
+                    hourWeatherForecast.getCurrent().toString(),
+                    hourWeatherForecast.getCurrent().getWin(),
+                    hourWeatherForecast.getCurrent().getMain(),
+                    String.valueOf(hourWeatherForecast.getCurrent().clouds));
+            sqLiteNotification.addNotification(notification);
+        }else{
+            Alert alert = hourWeatherForecast.getAlerts().get(0);
+            Notification notification = new Notification(
+                    Common.converUnixToDate1(Integer.parseInt(String.valueOf(alert.getStart()))),
+                    alert.getSender_name()+" - "+alert.getEvent(),
+                    alert.getDescription(),
+                    hourWeatherForecast.getCurrent().toString(),
+                    hourWeatherForecast.getCurrent().getWin(),
+                    hourWeatherForecast.getCurrent().getMain(),
+                    String.valueOf(hourWeatherForecast.getCurrent().clouds));
+            sqLiteNotification.addNotification(notification);
+        }
     }
 
     private void display(HourWeatherForecastResult hourWeatherForecast) {

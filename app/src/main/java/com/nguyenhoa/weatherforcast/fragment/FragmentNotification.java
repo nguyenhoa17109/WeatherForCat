@@ -3,6 +3,8 @@ package com.nguyenhoa.weatherforcast.fragment;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -47,6 +49,8 @@ public class FragmentNotification extends Fragment {
     private RecyclerView revNoti;
     private NotificationAdapter adapter;
     private NotificationManagerCompat notificationManagerCompat;
+    private SharedPreferences preferences;
+    public static final String MyPREFERENCES = "NOTIFICATION";
     final String CHANNEL_ID = "101";
 
     // TODO: Rename parameter arguments, choose names that match
@@ -139,14 +143,26 @@ public class FragmentNotification extends Fragment {
         Button bt_date = mView.findViewById(R.id.bt_date);
         Button bt_save = mView.findViewById(R.id.bt_save);
         Switch sw1 = mView.findViewById(R.id.sw_noti);
-        Switch sw2 = mView.findViewById(R.id.sw_feed);
+//        Switch sw2 = mView.findViewById(R.id.sw_feed);
         LinearLayout a = mView.findViewById(R.id.time);
+
+        preferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        boolean k = preferences.getBoolean("status", false);
+        String kk = preferences.getString("time", "00:00");
+        sw1.setChecked(k);
+        tvTime.setText(kk);
 
         sw1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(sw1.isChecked()) a.setVisibility(View.VISIBLE);
-                else a.setVisibility(View.GONE);
+                if(sw1.isChecked()){
+                    a.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    a.setVisibility(View.GONE);
+//                    updateStatus(sw1.isChecked(), "");
+                }
             }
         });
         if(sw1.isChecked()) a.setVisibility(View.VISIBLE);
@@ -158,8 +174,9 @@ public class FragmentNotification extends Fragment {
             public void onClick(View v) {
                 if(!tvTime.getText().toString().equals("")){
                     sendOnChannel(v, tvTime, n);
+                    updateStatus(sw1.isChecked(), tvTime.getText().toString().trim());
                 }
-
+                else updateStatus(sw1.isChecked(), "00:00");
                 alertDialog.dismiss();
             }
         });
@@ -222,9 +239,13 @@ public class FragmentNotification extends Fragment {
 
     private List<Notification> creatData(List<Notification> list) {
         List<Notification> lst = new ArrayList<>();
-        for(int i=list.size()-1; i>=1; i--){
-            lst.add(list.get(i));
+        for(int i=list.size()-1; i>=0; i--){
+            if(i%2 == 0)
+                lst.add(list.get(i));
         }
+//        for(int i= 0; i< list.size(); i++){
+//            lst.add(list.get(i));
+//        }
 //        list.add(new Notification("04/01/2021", "Thoi tiet Ha Noi", "Hom nay mua to" +
 //                " lam ban oi nho mang theo o nhe!"));
 //        list.add(new Notification("06/01/2021", "Thoi tiet Ha Noi", "Hom nay mua to" +
@@ -232,5 +253,15 @@ public class FragmentNotification extends Fragment {
 //        list.add(new Notification("24/01/2021", "Thoi tiet Ha Noi", "Hom nay mua to" +
 //                " lam ban oi nho mang theo o nhe!"));
         return lst;
+    }
+
+    private void loadStatus(){
+//        sw
+    }
+    private void updateStatus(boolean status, String time){
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("status", status);
+        editor.putString("time", time);
+        editor.apply();
     }
 }

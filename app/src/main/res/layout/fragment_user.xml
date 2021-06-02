@@ -26,18 +26,18 @@
         android:orientation="horizontal"
         android:background="@drawable/back_notification"
         android:padding="15dp"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center">
 
         <ImageView
             android:id="@+id/img_notification"
-            android:src="@drawable/img_noti"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginTop="5dp"/>
+            android:src="@drawable/ic_resource_default"
+            android:background="@drawable/bg_img"
+            android:padding="10dp"
+            android:layout_width="84dp"
+            android:layout_height="84dp"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:layout_marginLeft="16dp">
 
             <TextView
@@ -218,11 +218,11 @@
         android:layout_margin="24dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Change cat"
+        android:text="Storage"
         android:textAllCaps="false"
         android:padding="16dp"
         android:textAlignment="viewStart"
-        android:drawableLeft="@drawable/ic_buy"
+        android:drawableLeft="@drawable/ic_storage"
         android:drawablePadding="30dp"
         android:background="@drawable/back_noti_in"/>
 

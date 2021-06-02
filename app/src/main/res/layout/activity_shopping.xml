@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#EE4A567B"
+    tools:context=".ShoppingActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shopping"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif"
+            android:elevation="10dp"
+            android:layout_marginLeft="100dp"
+            android:textColor="@color/white"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/tv_heart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="500"
+            android:textColor="@color/white"
+            android:background="@drawable/day"
+            android:padding="8dp"
+            android:paddingRight="10dp"
+            android:layout_marginLeft="20dp"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:drawableStart="@drawable/ic_heart1"
+            android:drawablePadding="10dp" />
+    </LinearLayout>
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabTextColor="#944A567B"
+        app:tabSelectedTextColor="@color/white"
+        app:tabMode="fixed"
+        android:background="#004A567B"
+        app:tabIndicatorGravity="stretch"
+        app:tabIndicatorAnimationMode="elastic"
+        app:tabIndicator="@drawable/bg_shopping_tab"
+        app:tabTextAppearance="@style/text_shopping"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPagerTab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_shopping"/>
+
+</LinearLayout>

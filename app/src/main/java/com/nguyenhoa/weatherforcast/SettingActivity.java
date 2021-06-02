@@ -10,6 +10,7 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -35,6 +36,8 @@ public class SettingActivity extends AppCompatActivity {
     private TextView tv_time1, tv_time2, tv_time3;
     private Switch sw1, sw2, sw3;
     private RelativeLayout lay1, lay2, lay3;
+    private SharedPreferences preferences;
+    public static final String MyPREFERENCES = "SETTING";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +61,23 @@ public class SettingActivity extends AppCompatActivity {
         tv_time3 = findViewById(R.id.tv_time3);
 
         btsave = findViewById(R.id.bt_save);
+        preferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        boolean a1 = preferences.getBoolean("breakfast", false);
+        boolean a2 = preferences.getBoolean("lunch", false);
+        boolean a3 = preferences.getBoolean("dinner", false);
+        String b1 = preferences.getString("time1", "");
+        String b2 = preferences.getString("time2", "");
+        String b3 = preferences.getString("time3", "");
 
+        sw1.setChecked(a1);
+        sw2.setChecked(a2);
+        sw3.setChecked(a3);
+        if(b1.equals(""))   b1="00:00 AM";
+                        tv_time1.setText(b1);
+        if(b2.equals(""))   b2="00:00 AM";
+                        tv_time2.setText(b2);
+        if(b3.equals(""))   b3="00:00 PM";
+                        tv_time3.setText(b3);
         check(sw1, lay1, R.drawable.sang, "#E36E79");
         check(sw2, lay2, R.drawable.chieu, "#7C5E90");
         check(sw3, lay3, R.drawable.day, "#2E4859");
@@ -78,6 +97,9 @@ public class SettingActivity extends AppCompatActivity {
                 }
                 if(!sw1.isChecked() && !sw2.isChecked() && !sw3.isChecked())
                     Alarm_cancel();
+                updateStatus(sw1.isChecked(), sw2.isChecked(), sw3.isChecked(),
+                        tv_time1.getText().toString(), tv_time2.getText().toString()
+                        , tv_time3.getText().toString());
             }
         });
     }
@@ -203,4 +225,15 @@ public class SettingActivity extends AppCompatActivity {
         }
     }
 
+    private void updateStatus(boolean status1,boolean status2,boolean status3,
+                              String time1, String time2, String time3){
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("breakfast", status1);
+        editor.putBoolean("lunch", status2);
+        editor.putBoolean("dinner", status3);
+        editor.putString("time1", time1);
+        editor.putString("time2", time2);
+        editor.putString("time3", time3);
+        editor.apply();
+    }
 }

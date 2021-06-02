@@ -1,6 +1,9 @@
 package com.nguyenhoa.weatherforcast.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,10 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nguyenhoa.weatherforcast.R;
 import com.nguyenhoa.weatherforcast.SettingActivity;
+import com.nguyenhoa.weatherforcast.ShoppingActivity;
+import com.nguyenhoa.weatherforcast.StorageActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,8 +30,11 @@ import com.nguyenhoa.weatherforcast.SettingActivity;
  */
 public class FragmentUser extends Fragment {
     private Button bt_edit, bt_shop, bt_change, bt_setting;
-    private TextView tv_name, tv_description;
+    private TextView tv_name, tv_description, txt_like, txt_feed, txt_numcat;
     private View v;
+    private ImageView img_notification;
+    private SharedPreferences preferences;
+    public static final String MyPREFERENCES = "SETTING";
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -89,8 +98,11 @@ public class FragmentUser extends Fragment {
                 bt_save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        tv_name.setText(et_name.getText().toString());
-                        tv_description.setText(et_description.getText().toString());
+                        String name = et_name.getText().toString();
+                        String description = et_description.getText().toString();
+                        tv_name.setText(name);
+                        tv_description.setText(description);
+                        updateStatus1(name, description);
                         alertDialog.dismiss();
                     }
                 });
@@ -105,6 +117,20 @@ public class FragmentUser extends Fragment {
                 startActivity(intent);
             }
         });
+        bt_shop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ShoppingActivity.class);
+                startActivity(intent);
+            }
+        });
+        bt_change.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), StorageActivity.class);
+                startActivity(intent);
+            }
+        });
         return v;
     }
 
@@ -116,5 +142,65 @@ public class FragmentUser extends Fragment {
 
         tv_name = v.findViewById(R.id.tv_name);
         tv_description = v.findViewById(R.id.tv_description);
+
+        txt_like =v.findViewById(R.id.txt_like);
+        txt_feed = v.findViewById(R.id.txt_feed);
+        txt_numcat = v.findViewById(R.id.txt_numcat);
+        img_notification = v.findViewById(R.id.img_notification);
+
+        preferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+//        reset();
+        int img = preferences.getInt("img", 0);
+        String like = preferences.getString("like", "500");
+        String food = preferences.getString("feed", "0");
+        String numcat = preferences.getString("numcat", "0");
+        String name = preferences.getString("name", "Meo");
+        String description = preferences.getString("description", "This is description");
+//        if(name == null) name="Meo";
+//        if(description == null)  description="none";
+//        if(like==null) like="500";
+//        if(food==null) food="500";
+//        if(numcat==null)   numcat="1";
+        tv_name.setText(name);
+        tv_description.setText(description);
+        txt_like.setText(like);
+        txt_feed.setText(food);
+        txt_numcat.setText(numcat);
+        img_notification.setImageResource(img);
+    }
+
+    private void updateStatus1(String name, String description){
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("name", name);
+        editor.putString("description", description);
+        editor.apply();
+    }
+
+    private void updateStatus2(String like, String feed, String numcat){
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("like", like);
+        editor.putString("feed", feed);
+        editor.putString("numcat", numcat);
+        editor.apply();
+    }
+
+    private void reset(){
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("like", "500");
+        editor.putString("feed", "0");
+        editor.putString("numcat", "0");
+        editor.putString("number0", "0");
+        editor.putString("key"+0, "");
+//        for(int i=1; i<6; i++){
+//            editor.putString("key"+i, "Change");
+//            editor.putString("number"+i, i+"00");
+//        }
+//        for(int i=0; i<3; i++){
+////            editor.putInt("imgfood"+i, 0);
+////            editor.putString("titlefood"+i, "");
+////            editor.putString("contentfood"+i, "");
+//            editor.putString("stored"+i, "0");
+//        }
+        editor.apply();
     }
 }

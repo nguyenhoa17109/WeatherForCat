@@ -52,30 +52,34 @@ public class SQLiteNotification extends SQLiteOpenHelper {
     }
 
     public void addNotification(Notification result){
-        SQLiteDatabase r = getWritableDatabase();
         List<Notification> list = getAll();
-        if(list.size()>1){
-            if(result.toString().equals(list.get(list.size()-1).toString())){
-                return;
-            }
-            else{}
-        }else{
-            ContentValues values = new ContentValues();
-            values.put("title", result.getTitle());
-            values.put("day", result.getDay());
-            values.put("description", result.getContent());
+        String s1 = result.getDay()+result.getTitle();
+        String s2 = list.get(list.size()-1).getDay()+result.getTitle();
 
-            long id = r.insertWithOnConflict("notification", null,
-                    values, SQLiteDatabase.CONFLICT_IGNORE);
-            ContentValues values1 = new ContentValues();
-            values1.put("id", id);
-            values1.put("general", result.getGeneral());
-            values1.put("main", result.getMain());
-            values1.put("win", result.getWin());
-            values1.put("clouds", result.getClouds());
-            r.insert("weather", null, values1);
+        if(list.size()>1 && s1.equals(s2)){
+            return;
+        }else{
+            x(result);
         }
 
+    }
+
+    public void x(Notification result){
+        SQLiteDatabase r = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("title", result.getTitle());
+        values.put("day", result.getDay());
+        values.put("description", result.getContent());
+
+        long id = r.insertWithOnConflict("notification", null,
+                values, SQLiteDatabase.CONFLICT_IGNORE);
+        ContentValues values1 = new ContentValues();
+        values1.put("id", id);
+        values1.put("general", result.getGeneral());
+        values1.put("main", result.getMain());
+        values1.put("win", result.getWin());
+        values1.put("clouds", result.getClouds());
+        r.insert("weather", null, values1);
     }
 
     public List<Notification> getAll(){

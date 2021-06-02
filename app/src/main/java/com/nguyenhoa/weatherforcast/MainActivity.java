@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
+//        SharedPreferences prefs = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         navigation = findViewById(R.id.navigation);
         viewPager = findViewById(R.id.viewPager);
         adapter = new FragmentBottomAdapter(getSupportFragmentManager(),

@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_weather_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WeatherForcast">
-        <activity android:name=".SettingActivity"></activity>
+        <activity android:name=".StorageActivity"></activity>
+        <activity android:name=".ShoppingActivity" />
+        <activity android:name=".SettingActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +24,8 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".common.Alarm"/>
+        <receiver android:name=".common.Alarm" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
